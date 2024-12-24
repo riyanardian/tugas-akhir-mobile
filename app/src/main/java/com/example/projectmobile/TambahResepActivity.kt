@@ -47,12 +47,14 @@ class TambahResepActivity : AppCompatActivity() {
         }
     }
 
+    // Fungsi untuk memilih gambar
     private fun selectImage() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, 100)
     }
 
+    // Fungsi menangani hasil pemilihan gambar
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data?.data != null) {
@@ -61,10 +63,12 @@ class TambahResepActivity : AppCompatActivity() {
         }
     }
 
+    // Fungsi untuk menyimpan resep ke Firebase
     private fun saveRecipe() {
         val title = etTitle.text.toString().trim()
         val description = etDescription.text.toString().trim()
 
+        // Cek apakah semua data sudah diisi dan gambar sudah dipilih
         if (title.isEmpty() || description.isEmpty() || selectedImageUri == null) {
             Toast.makeText(this, "Isi semua kolom dan pilih gambar", Toast.LENGTH_SHORT).show()
             return
@@ -76,20 +80,24 @@ class TambahResepActivity : AppCompatActivity() {
             imageRef.putFile(uri)
                 .addOnSuccessListener {
                     imageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-                        // Simpan data ke Firebase Database
+                        // Generate recipe ID using push() - Firebase akan membuat ID unik
                         val recipeId = recipesRef.push().key
+
+                        // Membuat objek resep dengan ID
                         val recipe = Recipe(
+                            id = recipeId ?: "",  // Menyimpan ID
                             title = title,
                             description = description,
                             imageUrl = imageUrl.toString(),
                             timestamp = System.currentTimeMillis()
                         )
 
+                        // Menyimpan resep di Firebase Realtime Database
                         recipeId?.let {
                             recipesRef.child(it).setValue(recipe)
                                 .addOnSuccessListener {
                                     Toast.makeText(this, "Resep berhasil disimpan!", Toast.LENGTH_SHORT).show()
-                                    finish()
+                                    finish()  // Menutup aktivitas setelah berhasil menyimpan
                                 }
                                 .addOnFailureListener {
                                     Toast.makeText(this, "Gagal menyimpan resep", Toast.LENGTH_SHORT).show()

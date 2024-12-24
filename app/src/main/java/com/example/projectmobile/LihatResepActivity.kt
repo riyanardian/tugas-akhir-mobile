@@ -5,19 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class LihatResepActivity : AppCompatActivity() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var recipeList: ArrayList<Recipe>
     private lateinit var adapter: LihatAdaptor
@@ -25,15 +19,9 @@ class LihatResepActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_lihat_resep)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        // Inisialisasi RecyclerView
+        // Mengatur RecyclerView
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -48,6 +36,7 @@ class LihatResepActivity : AppCompatActivity() {
                     putExtra("EXTRA_ID", recipe.id)
                     putExtra("EXTRA_TITLE", recipe.title)
                     putExtra("EXTRA_DESCRIPTION", recipe.description)
+                    putExtra("EXTRA_IMAGE_URL", recipe.imageUrl)  // Menambahkan URL gambar ke Intent
                 }
                 startActivity(intent)
             },
@@ -57,27 +46,37 @@ class LihatResepActivity : AppCompatActivity() {
         )
         recyclerView.adapter = adapter
 
-
         // Inisialisasi Firebase Realtime Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("Recipes")
+        databaseReference = FirebaseDatabase.getInstance().getReference("recipes")
 
         // Mengambil data dari Firebase
-        databaseReference.addValueEventListener(object : ValueEventListener {
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 recipeList.clear()
-                for (dataSnapshot in snapshot.children) {
-                    try {
-                        // Log data yang diterima
-                        Log.d("FirebaseData", "Data: ${dataSnapshot.value}")
-                        val recipe = dataSnapshot.getValue(Recipe::class.java)
-                        if (recipe != null) {
-                            recipeList.add(recipe)
+                if (snapshot.exists()) {
+                    // Mengecek data di Firebase
+                    for (dataSnapshot in snapshot.children) {
+                        try {
+                            // Mengambil data dan mengonversinya ke dalam objek Recipe
+                            val recipe = dataSnapshot.getValue(Recipe::class.java)
+                            if (recipe != null) {
+                                // Menambahkan resep ke list
+                                recipeList.add(recipe)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("Firebase", "Error converting data: ${e.message}")
                         }
-                    } catch (e: Exception) {
-                        Log.e("Firebase", "Error converting data: ${e.message}")
                     }
+                    // Log untuk mengecek ukuran list data
+                    Log.d("LihatResepActivity", "Recipe List Size: ${recipeList.size}")
+                    // Memberitahukan adapter bahwa data telah diperbarui
+                    if (recipeList.isEmpty()) {
+                        Log.d("LihatResepActivity", "No recipes found in Firebase")
+                    }
+                    adapter.notifyDataSetChanged()
+                } else {
+                    Log.d("LihatResepActivity", "No data found in Firebase")
                 }
-                adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -87,10 +86,15 @@ class LihatResepActivity : AppCompatActivity() {
     }
 
     private fun deleteRecipe(recipeId: String) {
-        val ref = FirebaseDatabase.getInstance().getReference("Recipes").child(recipeId)
+        val ref = FirebaseDatabase.getInstance().getReference("recipes").child(recipeId)
         ref.removeValue().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Resep berhasil dihapus", Toast.LENGTH_SHORT).show()
+                val index = recipeList.indexOfFirst { it.id == recipeId }
+                if (index != -1) {
+                    recipeList.removeAt(index)
+                    adapter.notifyItemRemoved(index)
+                }
             } else {
                 Toast.makeText(this, "Gagal menghapus resep", Toast.LENGTH_SHORT).show()
             }

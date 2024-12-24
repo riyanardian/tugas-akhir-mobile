@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
@@ -35,9 +37,13 @@ class DashboardActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
-            val nextItem = (viewPagerMenu.currentItem + 1) % recipes.size
-            viewPagerMenu.currentItem = nextItem
-            handler.postDelayed(this, 5000)
+            if (recipes.isNotEmpty()) { // Cek apakah list recipes tidak kosong
+                val nextItem = (viewPagerMenu.currentItem + 1) % recipes.size
+                viewPagerMenu.currentItem = nextItem
+                handler.postDelayed(this, 5000)
+            } else {
+                Log.e("DashboardActivity", "List recipes kosong, auto slide dihentikan.")
+            }
         }
     }
 
@@ -80,6 +86,14 @@ class DashboardActivity : AppCompatActivity() {
 
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+
+            // Menghapus status login dari SharedPreferences jika ada
+            val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("isLoggedIn", false)
+            editor.apply()
+
+            // Pindah ke LoginActivity setelah logout
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
@@ -93,8 +107,8 @@ class DashboardActivity : AppCompatActivity() {
 
     // Fungsi untuk mengambil data resep dari Firebase
     private fun getRecipesFromFirebase() {
-        recipesRef.orderByChild("timestamp") // Mengurutkan berdasarkan timestamp
-            .limitToLast(5) // Ambil 5 resep terakhir
+        recipesRef.orderByChild("timestamp")
+            .limitToLast(5)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     recipes.clear()
@@ -110,26 +124,7 @@ class DashboardActivity : AppCompatActivity() {
                     // Hubungkan TabLayout dengan ViewPager2
                     TabLayoutMediator(tabLayout, viewPagerMenu) { tab, position ->
                         tab.text = "Tab ${position + 1}" // Ganti dengan nama yang sesuai
-
-                        // Set warna default untuk tab yang tidak aktif
-                        tab.view.setBackgroundColor(ContextCompat.getColor(this@DashboardActivity, R.color.light_grey)) // Warna default
-
-                        // Atur warna untuk tab yang aktif
-                        viewPagerMenu.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                            override fun onPageSelected(position: Int) {
-                                for (i in 0 until tabLayout.tabCount) {
-                                    val tabAt = tabLayout.getTabAt(i)
-                                    if (i == position) {
-                                        tabAt?.view?.setBackgroundColor(ContextCompat.getColor(this@DashboardActivity, R.color.dark_grey)) // Warna untuk tab aktif
-                                    } else {
-                                        tabAt?.view?.setBackgroundColor(ContextCompat.getColor(this@DashboardActivity, R.color.light_grey)) // Warna untuk tab non-aktif
-                                    }
-                                }
-                            }
-                        })
                     }.attach()
-
-                    // Tampilkan MenuFragment dengan resep pertama jika ada
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -176,9 +171,21 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(autoSlideRunnable)
     }
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            // Ketika jendela mendapat fokus
+            // Misalnya, memulai proses tertentu seperti animasi atau sinkronisasi data
+            Log.d("WindowFocus", "Window has gained focus.")
+        } else {
+            // Ketika jendela kehilangan fokus
+            // Misalnya, hentikan proses tertentu seperti animasi atau hentikan pengambilan data
+            Log.d("WindowFocus", "Window has lost focus.")
+        }
+    }
+
 }

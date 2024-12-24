@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projectmobile.R
 import com.example.projectmobile.Recipe
 
+
 class LihatAdaptor(
-    private val recipeList: List<Recipe>,
+    private val recipeList: ArrayList<Recipe>, // Konsisten menggunakan ArrayList
     private val onEditClicked: (Recipe) -> Unit,
     private val onDeleteClicked: (String) -> Unit
 ) : RecyclerView.Adapter<LihatAdaptor.ViewHolder>() {
@@ -46,3 +47,4 @@ class LihatAdaptor(
 
     override fun getItemCount(): Int = recipeList.size
 }
+

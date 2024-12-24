@@ -144,7 +144,7 @@ class DashboardActivity : AppCompatActivity() {
 
     // Fungsi untuk setup Auto Slide
     private fun setupAutoSlide() {
-        handler.postDelayed(autoSlideRunnable, 3000)
+        handler.postDelayed(autoSlideRunnable, 5000)
 
         // Hentikan Auto Slide ketika pengguna melakukan scroll manual
         viewPagerMenu.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

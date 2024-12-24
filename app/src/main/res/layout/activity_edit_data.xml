@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:gravity="center"
+android:layout_margin="20dp"
+tools:context=".EditDataActivity">
+
+<EditText
+    android:id="@+id/editTextNama"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Nama" />
+
+<EditText
+    android:id="@+id/editTextBahandanAlat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Bahan dan Alat" />
+
+<EditText
+    android:id="@+id/editTextLangkahLangkah"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Langkah Langkah" />
+
+<Button
+    android:id="@+id/editdata"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="EDIT DATA"
+    android:layout_marginBottom="30dp"/>
+
+
+</LinearLayout>
+
+

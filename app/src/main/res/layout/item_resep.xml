@@ -64,15 +64,17 @@
                 android:id="@+id/editdata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_edit"
-                android:text="EDIT"/>
+                android:text="EDIT"
+                android:layout_marginEnd="12dp" />
+
             <Button
                 android:id="@+id/hapusdata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_edit"
-                android:text="HAPUS"/>
+                android:text="HAPUS" />
         </LinearLayout>
+
+
 
     </LinearLayout>
 

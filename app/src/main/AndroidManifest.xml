@@ -13,6 +13,12 @@
         android:theme="@style/Theme.ProjectMobile"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".LihatResepActivity"
             android:exported="false" />
         <activity
@@ -25,7 +31,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

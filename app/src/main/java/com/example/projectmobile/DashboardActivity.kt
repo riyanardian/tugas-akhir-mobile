@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.projectmobile.Recipe
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class DashboardActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class DashboardActivity : AppCompatActivity() {
     private val recipes = mutableListOf<Recipe>()
     private lateinit var database: FirebaseDatabase
     private lateinit var recipesRef: DatabaseReference
+    val btnLogout = findViewById<Button>(R.id.btnLogout)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,12 @@ class DashboardActivity : AppCompatActivity() {
         btnLihatResep.setOnClickListener {
             val intent = Intent(this, LihatResepActivity::class.java)
             startActivity(intent)
+        }
+
+        btnLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 

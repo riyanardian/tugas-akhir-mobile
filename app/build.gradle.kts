@@ -77,4 +77,5 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")  // Untuk menggunakan annotation processing
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-auth:23.1.0")
 }

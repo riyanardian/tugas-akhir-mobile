@@ -20,7 +20,7 @@ class DashboardActivity : AppCompatActivity() {
     private val recipes = mutableListOf<Recipe>()
     private lateinit var database: FirebaseDatabase
     private lateinit var recipesRef: DatabaseReference
-    val btnLogout = findViewById<Button>(R.id.btnLogout)
+    private lateinit var btnLogout: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +37,8 @@ class DashboardActivity : AppCompatActivity() {
         viewPagerMenu = findViewById(R.id.viewPagerMenu)
         btnTambahResep = findViewById(R.id.btnTambahResep)
         btnLihatResep = findViewById(R.id.btnLihatResep)
+        btnLogout = findViewById(R.id.btnLogout)
+
 
         // Inisialisasi Firebase
         database = FirebaseDatabase.getInstance()
@@ -58,7 +60,7 @@ class DashboardActivity : AppCompatActivity() {
 
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
     }

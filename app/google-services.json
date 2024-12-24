@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "488645167997",
-    "project_id": "mobile-98785",
-    "storage_bucket": "mobile-98785.firebasestorage.app"
+    "project_number": "964418381431",
+    "firebase_url": "https://project-portaluty-7bc81-default-rtdb.firebaseio.com",
+    "project_id": "project-portaluty-7bc81",
+    "storage_bucket": "project-portaluty-7bc81.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:488645167997:android:b57b5437636c8cfe239a14",
+        "mobilesdk_app_id": "1:964418381431:android:ebc85e6ade3abe69808872",
         "android_client_info": {
           "package_name": "com.example.projectmobile"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCsmoc2vlaDBX8PRVQqxCUv7HoD3aDYJKs"
+          "current_key": "AIzaSyAwlS6pXGdMsdgZbbiKwulJVuzcyYUcJnc"
         }
       ],
       "services": {

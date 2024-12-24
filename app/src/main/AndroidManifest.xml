@@ -22,13 +22,12 @@
             android:name=".MenuFragment"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".DashboardActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ProjectMobile">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

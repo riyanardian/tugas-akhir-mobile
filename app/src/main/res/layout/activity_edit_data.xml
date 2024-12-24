@@ -21,11 +21,7 @@ tools:context=".EditDataActivity">
     android:layout_height="wrap_content"
     android:hint="Bahan dan Alat" />
 
-<EditText
-    android:id="@+id/editTextLangkahLangkah"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Langkah Langkah" />
+
 
 <Button
     android:id="@+id/editdata"

@@ -152,7 +152,7 @@ class DashboardActivity : AppCompatActivity() {
                 if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
                     handler.removeCallbacks(autoSlideRunnable)
                 } else if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                    handler.postDelayed(autoSlideRunnable, 3000)
+                    handler.postDelayed(autoSlideRunnable, 5000)
                 }
             }
         })

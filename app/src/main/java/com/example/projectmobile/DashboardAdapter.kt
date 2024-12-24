@@ -12,7 +12,8 @@ class DashboardAdapter(
     override fun getItemCount(): Int = recipeList.size
 
     override fun createFragment(position: Int): Fragment {
-        val Recipe = recipeList[position]
-        return MenuFragment(Recipe) // Mengirim data resep ke fragment
+        val recipe = recipeList[position]
+        return MenuFragment.newInstance(recipe) // Gunakan newInstance() untuk mengirim data
     }
 }
+

@@ -1,39 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main"
-        tools:context=".DashboardActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".DashboardActivity"
+    android:background="?android:attr/windowBackground"> <!-- Gunakan background default untuk mode -->
 
-        <!-- ViewPager2 untuk menampilkan menu yang bisa digeser -->
+    <!-- Judul Dashboard -->
+    <TextView
+        android:id="@+id/dashboardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ChefMate Dashboard"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#7B68EE" />
+
+
+    <!-- ViewPager2 untuk menampilkan menu yang bisa digeser -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerMenu"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="252dp" />
 
-        <!-- Tombol untuk menambah resep -->
-        <Button
-            android:id="@+id/btnTambahResep"
+        <!-- TabLayout untuk indikator -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/indicatorLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tambah Resep"
-            android:layout_marginTop="16dp"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/dark_grey"
+            app:tabTextColor="@color/light_grey" />
 
-        <!-- Tombol untuk melihat resep -->
-        <Button
-            android:id="@+id/btnLihatResep"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lihat Resep" />
-        <Button
-            android:id="@+id/btnLogout"
-            android:text="Logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <!-- GridLayout untuk menu utama -->
+    <GridLayout
+        android:id="@+id/gridMenu"
+        android:layout_width="373dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowCount="2">
 
+        <!-- CardView Tambah Resep -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardTambahResep"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="Tambah Resep"
+                    android:src="@drawable/tambahresep" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tambah Resep"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- CardView Lihat Resep -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardLihatResep"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="Lihat Resep"
+                    android:src="@drawable/lihatresep" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Lihat Resep"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </GridLayout>
+
+    <!-- Tombol Logout -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:text="Logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Switch untuk Dark Mode -->
+    <Switch
+        android:id="@+id/switchDarkMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dark Mode"
+        android:checked="false" />
+
+</LinearLayout>

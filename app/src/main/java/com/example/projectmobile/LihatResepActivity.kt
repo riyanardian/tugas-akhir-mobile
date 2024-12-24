@@ -48,7 +48,6 @@ class LihatResepActivity : AppCompatActivity() {
                     putExtra("EXTRA_ID", recipe.id)
                     putExtra("EXTRA_TITLE", recipe.title)
                     putExtra("EXTRA_DESCRIPTION", recipe.description)
-                    putExtra("EXTRA_STEP", recipe.step)
                 }
                 startActivity(intent)
             },

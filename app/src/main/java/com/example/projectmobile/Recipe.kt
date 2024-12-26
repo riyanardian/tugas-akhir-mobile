@@ -1,5 +1,7 @@
 package com.example.projectmobile
 
+import java.io.Serializable
+
 data class Recipe(
         val id:String = "",
         val title: String = "",
